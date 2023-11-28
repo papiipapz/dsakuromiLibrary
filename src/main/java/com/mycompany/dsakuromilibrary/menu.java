@@ -303,17 +303,6 @@ public class menu extends javax.swing.JFrame {
         jLabel6.setForeground(new java.awt.Color(255, 255, 255));
         jLabel6.setText("Sort by:");
 
-        SearchTextfield.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                SearchTextfieldActionPerformed(evt);
-            }
-        });
-        SearchTextfield.addKeyListener(new java.awt.event.KeyAdapter() {
-            public void keyReleased(java.awt.event.KeyEvent evt) {
-                SearchTextfieldKeyReleased(evt);
-            }
-        });
-
         jLabel8.setBackground(new java.awt.Color(255, 255, 255));
         jLabel8.setFont(new java.awt.Font("Tahoma", 1, 24)); // NOI18N
         jLabel8.setForeground(new java.awt.Color(255, 255, 255));
@@ -680,39 +669,6 @@ public class menu extends javax.swing.JFrame {
    
    }
    
-    private void boxSortbyActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_boxSortbyActionPerformed
-
-        String selectedColumnName = (String) boxSortby.getSelectedItem();
-
-        switch (selectedColumnName) {
-            case "Book ID":
-                    sortbookID();
-                    break;
-            case "Title":
-                    sortTitle();
-                    break;
-            case "Author":
-                    sortAuthor();
-                    break;
-            case "Genre":
-                    sortGenre();
-                    break;
-            case "Date published":
-                    sortDatePublished();
-                    break;
-            case "Date Added":
-                    sortDateAdded();
-                break;
-            default:
-                
-                break;
-        }
-    }//GEN-LAST:event_boxSortbyActionPerformed
-
-    private void SearchTextfieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_SearchTextfieldActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_SearchTextfieldActionPerformed
-
     private void updateMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_updateMouseClicked
 
         try {
@@ -733,11 +689,34 @@ public class menu extends javax.swing.JFrame {
 
     }//GEN-LAST:event_deleteMouseClicked
 
-    private void SearchTextfieldKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_SearchTextfieldKeyReleased
-        // TODO add your handling code here:
+    private void boxSortbyActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_boxSortbyActionPerformed
 
+        String selectedColumnName = (String) boxSortby.getSelectedItem();
 
-    }//GEN-LAST:event_SearchTextfieldKeyReleased
+        switch (selectedColumnName) {
+            case "Book ID":
+            sortbookID();
+            break;
+            case "Title":
+            sortTitle();
+            break;
+            case "Author":
+            sortAuthor();
+            break;
+            case "Genre":
+            sortGenre();
+            break;
+            case "Date published":
+            sortDatePublished();
+            break;
+            case "Date Added":
+            sortDateAdded();
+            break;
+            default:
+
+            break;
+        }
+    }//GEN-LAST:event_boxSortbyActionPerformed
 
     /**
      * @param args the command line arguments
