@@ -8,11 +8,12 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import javax.swing.JFrame;
-import javax.swing.JTable;
 import java.sql.*;
+import java.util.ArrayList;
+import java.util.List;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
-
+import javax.swing.table.TableModel;
 
 /**
  *
@@ -23,8 +24,7 @@ public class menu extends javax.swing.JFrame {
     Connection conn = null;
     PreparedStatement pst = null;
     ResultSet result = null;
-    
-   
+    private TableModel tableModel;
 
     public menu() {
         initComponents();
@@ -32,27 +32,24 @@ public class menu extends javax.swing.JFrame {
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         conn = connection.connectdb();
         populate_tab();
-        
-        
-    }
 
-   
-    
+    }
 
     private void closeConnection() {
         try {
             if (conn != null && !conn.isClosed()) {
                 conn.close();
-               
+
                 System.out.println("Connection closed.");
             }
         } catch (SQLException e) {
             e.printStackTrace();
         }
     }
+
     @SuppressWarnings("unchecked")
-    
-    
+
+
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
@@ -278,7 +275,7 @@ public class menu extends javax.swing.JFrame {
                 .addComponent(delete, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(About, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 90, Short.MAX_VALUE)
                 .addComponent(jLabel9)
                 .addGap(18, 18, 18)
                 .addComponent(jLabel10)
@@ -291,7 +288,7 @@ public class menu extends javax.swing.JFrame {
         tab1.setRequestFocusEnabled(false);
 
         boxSortby.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
-        boxSortby.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Title", "Author", "Genre", "Date published", "Date Added" }));
+        boxSortby.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Book ID", "Title", "Author", "Genre", "Date published", "Date Added" }));
         boxSortby.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 boxSortbyActionPerformed(evt);
@@ -309,6 +306,11 @@ public class menu extends javax.swing.JFrame {
         SearchTextfield.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 SearchTextfieldActionPerformed(evt);
+            }
+        });
+        SearchTextfield.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                SearchTextfieldKeyReleased(evt);
             }
         });
 
@@ -337,30 +339,27 @@ public class menu extends javax.swing.JFrame {
         tab1Layout.setHorizontalGroup(
             tab1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(tab1Layout.createSequentialGroup()
+                .addGap(16, 16, 16)
+                .addComponent(jLabel8))
+            .addGroup(tab1Layout.createSequentialGroup()
+                .addGap(47, 47, 47)
                 .addGroup(tab1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 783, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(tab1Layout.createSequentialGroup()
-                        .addGap(16, 16, 16)
-                        .addComponent(jLabel8))
-                    .addGroup(tab1Layout.createSequentialGroup()
-                        .addGap(47, 47, 47)
-                        .addGroup(tab1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addGroup(tab1Layout.createSequentialGroup()
-                                .addComponent(jLabel6)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(boxSortby, javax.swing.GroupLayout.PREFERRED_SIZE, 113, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(89, 89, 89)
-                                .addComponent(jLabel5)
-                                .addGap(18, 18, 18)
-                                .addComponent(SearchTextfield, javax.swing.GroupLayout.PREFERRED_SIZE, 221, javax.swing.GroupLayout.PREFERRED_SIZE)))))
-                .addGap(24, 24, 24))
+                        .addComponent(jLabel6)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(boxSortby, javax.swing.GroupLayout.PREFERRED_SIZE, 113, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(29, 29, 29)
+                        .addComponent(jLabel5)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(SearchTextfield, javax.swing.GroupLayout.PREFERRED_SIZE, 221, javax.swing.GroupLayout.PREFERRED_SIZE))))
         );
         tab1Layout.setVerticalGroup(
             tab1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, tab1Layout.createSequentialGroup()
                 .addGap(25, 25, 25)
                 .addComponent(jLabel8)
-                .addGap(18, 18, 18)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(tab1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(tab1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                         .addComponent(boxSortby, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -368,7 +367,7 @@ public class menu extends javax.swing.JFrame {
                         .addComponent(jLabel6))
                     .addComponent(SearchTextfield, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(30, 30, 30)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 383, Short.MAX_VALUE)
                 .addGap(44, 44, 44))
         );
 
@@ -376,7 +375,9 @@ public class menu extends javax.swing.JFrame {
         jPanelright.setLayout(jPanelrightLayout);
         jPanelrightLayout.setHorizontalGroup(
             jPanelrightLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(tab1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addGroup(jPanelrightLayout.createSequentialGroup()
+                .addComponent(tab1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 40, Short.MAX_VALUE))
         );
         jPanelrightLayout.setVerticalGroup(
             jPanelrightLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -405,11 +406,11 @@ public class menu extends javax.swing.JFrame {
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 881, Short.MAX_VALUE)
+            .addGap(0, 1094, Short.MAX_VALUE)
             .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(layout.createSequentialGroup()
                     .addGap(0, 0, 0)
-                    .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, 881, Short.MAX_VALUE)
+                    .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, 1094, Short.MAX_VALUE)
                     .addGap(0, 0, 0)))
         );
         layout.setVerticalGroup(
@@ -424,27 +425,26 @@ public class menu extends javax.swing.JFrame {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
-    public void populate_tab(){
-        
-        try{
-        String sql = "SELECT * FROM Book";
-        pst = conn.prepareStatement(sql);
-        result = pst.executeQuery();
-        eTab.setModel(DbUtils.resultSetToTableModel(result));
-        
-        
-        }catch(Exception e){
-        JOptionPane.showMessageDialog(null, e);
+
+    public void populate_tab() {
+
+        try {
+            String sql = "SELECT * FROM Book";
+            pst = conn.prepareStatement(sql);
+            result = pst.executeQuery();
+            tableModel = DbUtils.resultSetToTableModel(result);
+            eTab.setModel(tableModel);
+
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, e);
         }
-    
-    
+
     }
-    
+
     private void BrowseMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_BrowseMouseClicked
         // TODO add your handling code here:
 
         tab1.setVisible(true);
-       
 
 
     }//GEN-LAST:event_BrowseMouseClicked
@@ -460,13 +460,253 @@ public class menu extends javax.swing.JFrame {
 
     private void AboutMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_AboutMouseClicked
         // TODO add your handling code here:
-        
+
         tab1.setVisible(false);
 
     }//GEN-LAST:event_AboutMouseClicked
 
+   private void sortbookID(){
+      try {
+                String sql = "SELECT * FROM Book ORDER BY book_id";
+
+                pst = conn.prepareStatement(sql);
+                result = pst.executeQuery();
+                List<Object[]> bookid = new ArrayList<>();
+
+                while (result.next()) {
+                    Object[] rowData = {
+                        result.getObject("book_id"),
+                        result.getObject("title"),
+                        result.getObject("author"),
+                        result.getObject("genre"),
+                        result.getObject("date_published"),
+                        result.getObject("date_added"),};
+                    bookid.add(rowData);
+                }
+
+                Object[][] bookidArray = bookid.toArray(new Object[0][]);
+                insertionsort sort = new insertionsort();
+                sort.insertionSort(bookidArray);
+
+                DefaultTableModel tableModel = (DefaultTableModel) DbUtils.resultSetToTableModel(result);
+
+                for (Object[] rowData : bookid) {
+                    tableModel.addRow(rowData);
+                }
+                eTab.setModel(tableModel);
+
+            } catch (SQLException e) {
+                JOptionPane.showMessageDialog(null, e);
+            }
+   }
+   
+   private void sortTitle(){
+          try {
+                String sql = "SELECT * FROM Book ORDER BY title";
+
+                pst = conn.prepareStatement(sql);
+                result = pst.executeQuery();
+                List<Object[]> bookTitle = new ArrayList<>();
+
+                while (result.next()) {
+                    Object[] rowData1 = {
+                        result.getObject("book_id"),
+                        result.getObject("title"),
+                        result.getObject("author"),
+                        result.getObject("genre"),
+                        result.getObject("date_published"),
+                        result.getObject("date_added"),};
+                    bookTitle.add(rowData1);
+                }
+
+                Object[][] booktitleArray = bookTitle.toArray(new Object[0][]);
+                insertionsort sort = new insertionsort();
+                sort.insertionSort(booktitleArray);
+
+                DefaultTableModel tableModel = (DefaultTableModel) DbUtils.resultSetToTableModel(result);
+
+                for (Object[] rowData1 : bookTitle) {
+                    tableModel.addRow(rowData1);
+                }
+                eTab.setModel(tableModel);
+
+            } catch (SQLException e) {
+                JOptionPane.showMessageDialog(null, e);
+            }
+   }
+   
+   private void sortAuthor(){
+         try {
+                String sql = "SELECT * FROM Book ORDER BY author";
+
+                pst = conn.prepareStatement(sql);
+                result = pst.executeQuery();
+                List<Object[]> bookAuthor = new ArrayList<>();
+
+                while (result.next()) {
+                    Object[] rowData2 = {
+                        result.getObject("book_id"),
+                        result.getObject("title"),
+                        result.getObject("author"),
+                        result.getObject("genre"),
+                        result.getObject("date_published"),
+                        result.getObject("date_added"),};
+                    bookAuthor.add(rowData2);
+                }
+
+                Object[][] bookauthorArray = bookAuthor.toArray(new Object[0][]);
+                insertionsort sort = new insertionsort();
+                sort.insertionSort(bookauthorArray);
+
+                DefaultTableModel tableModel = (DefaultTableModel) DbUtils.resultSetToTableModel(result);
+
+                for (Object[] rowData2 : bookAuthor) {
+                    tableModel.addRow(rowData2);
+                }
+                eTab.setModel(tableModel);
+
+            } catch (SQLException e) {
+                JOptionPane.showMessageDialog(null, e);
+            }
+   
+   }
+   
+   private void sortGenre(){
+                try {
+                String sql = "SELECT * FROM Book ORDER BY genre";
+
+                pst = conn.prepareStatement(sql);
+                result = pst.executeQuery();
+                List<Object[]> bookGenre = new ArrayList<>();
+
+                while (result.next()) {
+                    Object[] rowData3 = {
+                        result.getObject("book_id"),
+                        result.getObject("title"),
+                        result.getObject("author"),
+                        result.getObject("genre"),
+                        result.getObject("date_published"),
+                        result.getObject("date_added"),};
+                    bookGenre.add(rowData3);
+                }
+
+                Object[][] bookgenreArray = bookGenre.toArray(new Object[0][]);
+                insertionsort sort = new insertionsort();
+                sort.insertionSort(bookgenreArray);
+
+                DefaultTableModel tableModel = (DefaultTableModel) DbUtils.resultSetToTableModel(result);
+
+                for (Object[] rowData3 : bookGenre) {
+                    tableModel.addRow(rowData3);
+                }
+                eTab.setModel(tableModel);
+
+            } catch (SQLException e) {
+                JOptionPane.showMessageDialog(null, e);
+            }
+   }
+   
+   private void sortDatePublished(){
+   try {
+                String sql = "SELECT * FROM Book ORDER BY date_published";
+
+                pst = conn.prepareStatement(sql);
+                result = pst.executeQuery();
+                List<Object[]> bookDatepub = new ArrayList<>();
+
+                while (result.next()) {
+                    Object[] rowData4 = {
+                        result.getObject("book_id"),
+                        result.getObject("title"),
+                        result.getObject("author"),
+                        result.getObject("genre"),
+                        result.getObject("date_published"),
+                        result.getObject("date_added"),};
+                    bookDatepub.add(rowData4);
+                }
+
+                Object[][] bookdatepubArray = bookDatepub.toArray(new Object[0][]);
+                insertionsort sort = new insertionsort();
+                sort.insertionSort(bookdatepubArray);
+
+                DefaultTableModel tableModel = (DefaultTableModel) DbUtils.resultSetToTableModel(result);
+
+                for (Object[] rowData4 : bookDatepub) {
+                    tableModel.addRow(rowData4);
+                }
+                eTab.setModel(tableModel);
+
+            } catch (SQLException e) {
+                JOptionPane.showMessageDialog(null, e);
+            }
+   
+   
+   }
+   
+   
+   private void sortDateAdded(){
+   try {
+                String sql = "SELECT * FROM Book ORDER BY date_added";
+
+                pst = conn.prepareStatement(sql);
+                result = pst.executeQuery();
+                List<Object[]> bookDateAdd = new ArrayList<>();
+
+                while (result.next()) {
+                    Object[] rowData5 = {
+                        result.getObject("book_id"),
+                        result.getObject("title"),
+                        result.getObject("author"),
+                        result.getObject("genre"),
+                        result.getObject("date_published"),
+                        result.getObject("date_added"),};
+                    bookDateAdd.add(rowData5);
+                }
+
+                Object[][] bookdateaddArray = bookDateAdd.toArray(new Object[0][]);
+                insertionsort sort = new insertionsort();
+                sort.insertionSort(bookdateaddArray);
+
+                DefaultTableModel tableModel = (DefaultTableModel) DbUtils.resultSetToTableModel(result);
+
+                for (Object[] rowData5 : bookDateAdd) {
+                    tableModel.addRow(rowData5);
+                }
+                eTab.setModel(tableModel);
+
+            } catch (SQLException e) {
+                JOptionPane.showMessageDialog(null, e);
+            }
+   
+   }
+   
     private void boxSortbyActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_boxSortbyActionPerformed
-        // TODO add your handling code here:
+
+        String selectedColumnName = (String) boxSortby.getSelectedItem();
+
+        switch (selectedColumnName) {
+            case "Book ID":
+                    sortbookID();
+                    break;
+            case "Title":
+                    sortTitle();
+                    break;
+            case "Author":
+                    sortAuthor();
+                    break;
+            case "Genre":
+                    sortGenre();
+                    break;
+            case "Date published":
+                    sortDatePublished();
+                    break;
+            case "Date Added":
+                    sortDateAdded();
+                break;
+            default:
+                
+                break;
+        }
     }//GEN-LAST:event_boxSortbyActionPerformed
 
     private void SearchTextfieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_SearchTextfieldActionPerformed
@@ -475,18 +715,29 @@ public class menu extends javax.swing.JFrame {
 
     private void updateMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_updateMouseClicked
 
+        try {
             populate_tab();
+            eTab.setModel(tableModel);
+
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, e);
+        }
 
     }//GEN-LAST:event_updateMouseClicked
 
     private void deleteMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_deleteMouseClicked
         // TODO add your handling code here:
-        stackInsert stack= new stackInsert();
-        
-        stack.loadDatabaseContent();
+        stackInsert stack = new stackInsert();
         stack.deleteMostRecentEntry();
-        
+
+
     }//GEN-LAST:event_deleteMouseClicked
+
+    private void SearchTextfieldKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_SearchTextfieldKeyReleased
+        // TODO add your handling code here:
+
+
+    }//GEN-LAST:event_SearchTextfieldKeyReleased
 
     /**
      * @param args the command line arguments

@@ -23,7 +23,6 @@ public class stackInsert {
     Connection conn = connection.connectdb();
     PreparedStatement pst = null;
     ResultSet result = null;
-    public Stack<Object[]> newbookstack = new Stack<>();
     public Stack<Object[]> bookStack = new Stack<>();
     menu m = new menu();
     private DefaultTableModel tablemodel;
@@ -60,9 +59,12 @@ public class stackInsert {
 
     }
     
-    public void loadDatabaseContent() {
-   
-        try {
+    
+    
+  
+    public void deleteMostRecentEntry() {
+       Stack<Object[]> newbookstack = new Stack<>();
+         try {
             Statement stmt = conn.createStatement();
             ResultSet rs = stmt.executeQuery("SELECT * FROM Book");
 
@@ -84,9 +86,8 @@ public class stackInsert {
         } catch (SQLException e) {
             JOptionPane.showMessageDialog(null, e);
         }
-    }
-    
-    public void deleteMostRecentEntry() {
+        
+        
         if (!newbookstack.isEmpty()) {
             // Remove the most recently added entry from the stack
             Object[] removedBook = newbookstack.pop();

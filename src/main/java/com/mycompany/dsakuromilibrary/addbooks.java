@@ -190,6 +190,7 @@ public class addbooks extends javax.swing.JFrame {
             menu m = new menu();  
             stackInsert insert = new stackInsert();
             insert.addBook(titel1, author1, genre, date, today);
+            
             JOptionPane.showMessageDialog(null, "Book successfuly added.");
             this.dispose();
             conn.close();
