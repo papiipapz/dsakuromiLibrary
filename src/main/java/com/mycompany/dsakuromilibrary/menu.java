@@ -456,11 +456,11 @@ public class menu extends javax.swing.JFrame {
 
    private void sortbookID(){
       try {
-                String sql = "SELECT * FROM Book ORDER BY book_id";
+                String sql = "SELECT * FROM Book";
 
                 pst = conn.prepareStatement(sql);
                 result = pst.executeQuery();
-                List<Object[]> bookid = new ArrayList<>();
+                ArrayList<Object[]> bookid = new ArrayList<>();
 
                 while (result.next()) {
                     Object[] rowData = {
@@ -473,15 +473,18 @@ public class menu extends javax.swing.JFrame {
                     bookid.add(rowData);
                 }
 
-                Object[][] bookidArray = bookid.toArray(new Object[0][]);
-                insertionsort sort = new insertionsort();
-                sort.insertionSort(bookidArray);
+               
+                heapsort sort = new heapsort();
+                sort.heapSort(bookid);
 
-                DefaultTableModel tableModel = (DefaultTableModel) DbUtils.resultSetToTableModel(result);
-
-                for (Object[] rowData : bookid) {
-                    tableModel.addRow(rowData);
+                DefaultTableModel tableModel = new DefaultTableModel(
+            new Object[]{"Book ID", "Title", "Author", "Genre", "Date Published", "Date Added"}, 0
+        );
+                // Add sorted rows to the table model
+                for (Object[] rowData2 : bookid) {
+                    tableModel.addRow(rowData2);
                 }
+
                 eTab.setModel(tableModel);
 
             } catch (SQLException e) {
@@ -490,33 +493,36 @@ public class menu extends javax.swing.JFrame {
    }
    
    private void sortTitle(){
+       //insertion sort implementation
           try {
-                String sql = "SELECT * FROM Book ORDER BY title";
+                String sql = "SELECT * FROM Book";
 
                 pst = conn.prepareStatement(sql);
                 result = pst.executeQuery();
-                List<Object[]> bookTitle = new ArrayList<>();
+                ArrayList<Object[]> bookTitle = new ArrayList<>();
 
                 while (result.next()) {
-                    Object[] rowData1 = {
-                        result.getObject("book_id"),
-                        result.getObject("title"),
-                        result.getObject("author"),
-                        result.getObject("genre"),
-                        result.getObject("date_published"),
-                        result.getObject("date_added"),};
-                    bookTitle.add(rowData1);
+            Object[] rowData1 = {
+                result.getObject("book_id"),
+                result.getObject("title"),
+                result.getObject("author"),
+                result.getObject("genre"),
+                result.getObject("date_published"),
+                result.getObject("date_added")
+            };
+            bookTitle.add(rowData1);
+        }
+               insertionsort sort = new insertionsort();
+                sort.insertionSort(bookTitle);
+
+        DefaultTableModel tableModel = new DefaultTableModel(
+            new Object[]{"Book ID", "Title", "Author", "Genre", "Date Published", "Date Added"}, 0
+        );
+                // Add sorted rows to the table model
+                for (Object[] rowData2 : bookTitle) {
+                    tableModel.addRow(rowData2);
                 }
 
-                Object[][] booktitleArray = bookTitle.toArray(new Object[0][]);
-                insertionsort sort = new insertionsort();
-                sort.insertionSort(booktitleArray);
-
-                DefaultTableModel tableModel = (DefaultTableModel) DbUtils.resultSetToTableModel(result);
-
-                for (Object[] rowData1 : bookTitle) {
-                    tableModel.addRow(rowData1);
-                }
                 eTab.setModel(tableModel);
 
             } catch (SQLException e) {
@@ -525,12 +531,13 @@ public class menu extends javax.swing.JFrame {
    }
    
    private void sortAuthor(){
+       //selection sort implementation
          try {
-                String sql = "SELECT * FROM Book ORDER BY author";
+                String sql = "SELECT * FROM Book";
 
                 pst = conn.prepareStatement(sql);
                 result = pst.executeQuery();
-                List<Object[]> bookAuthor = new ArrayList<>();
+                ArrayList<Object[]> bookAuthor = new ArrayList<>();
 
                 while (result.next()) {
                     Object[] rowData2 = {
@@ -543,15 +550,18 @@ public class menu extends javax.swing.JFrame {
                     bookAuthor.add(rowData2);
                 }
 
-                Object[][] bookauthorArray = bookAuthor.toArray(new Object[0][]);
-                insertionsort sort = new insertionsort();
-                sort.insertionSort(bookauthorArray);
+      
+                selectionsort sort = new selectionsort();
+                sort.selectionSort(bookAuthor);
 
-                DefaultTableModel tableModel = (DefaultTableModel) DbUtils.resultSetToTableModel(result);
-
+                 DefaultTableModel tableModel = new DefaultTableModel(
+            new Object[]{"Book ID", "Title", "Author", "Genre", "Date Published", "Date Added"}, 0
+        );
+                // Add sorted rows to the table model
                 for (Object[] rowData2 : bookAuthor) {
                     tableModel.addRow(rowData2);
                 }
+
                 eTab.setModel(tableModel);
 
             } catch (SQLException e) {
@@ -561,12 +571,13 @@ public class menu extends javax.swing.JFrame {
    }
    
    private void sortGenre(){
+       //bubble sort implementation
                 try {
-                String sql = "SELECT * FROM Book ORDER BY genre";
+                String sql = "SELECT * FROM Book";
 
                 pst = conn.prepareStatement(sql);
                 result = pst.executeQuery();
-                List<Object[]> bookGenre = new ArrayList<>();
+                ArrayList<Object[]> bookGenre = new ArrayList<>();
 
                 while (result.next()) {
                     Object[] rowData3 = {
@@ -579,15 +590,18 @@ public class menu extends javax.swing.JFrame {
                     bookGenre.add(rowData3);
                 }
 
-                Object[][] bookgenreArray = bookGenre.toArray(new Object[0][]);
-                insertionsort sort = new insertionsort();
-                sort.insertionSort(bookgenreArray);
+                
+                bubblesort sort = new bubblesort();
+                sort.bubbleSort(bookGenre);
 
-                DefaultTableModel tableModel = (DefaultTableModel) DbUtils.resultSetToTableModel(result);
-
-                for (Object[] rowData3 : bookGenre) {
-                    tableModel.addRow(rowData3);
+                 DefaultTableModel tableModel = new DefaultTableModel(
+                 new Object[]{"Book ID", "Title", "Author", "Genre", "Date Published", "Date Added"}, 0
+                );
+                // Add sorted rows to the table model
+                for (Object[] rowData2 : bookGenre) {
+                    tableModel.addRow(rowData2);
                 }
+
                 eTab.setModel(tableModel);
 
             } catch (SQLException e) {
@@ -596,12 +610,13 @@ public class menu extends javax.swing.JFrame {
    }
    
    private void sortDatePublished(){
+       //quicksort implementation
    try {
-                String sql = "SELECT * FROM Book ORDER BY date_published";
+                String sql = "SELECT * FROM Book";
 
                 pst = conn.prepareStatement(sql);
                 result = pst.executeQuery();
-                List<Object[]> bookDatepub = new ArrayList<>();
+                ArrayList<Object[]> bookDatepub = new ArrayList<>();
 
                 while (result.next()) {
                     Object[] rowData4 = {
@@ -614,15 +629,19 @@ public class menu extends javax.swing.JFrame {
                     bookDatepub.add(rowData4);
                 }
 
-                Object[][] bookdatepubArray = bookDatepub.toArray(new Object[0][]);
-                insertionsort sort = new insertionsort();
-                sort.insertionSort(bookdatepubArray);
+                 int low = 0;
+                 int high = bookDatepub.size() - 1;
+                quicksort sort = new quicksort();
+                sort.quickSort(bookDatepub,low,high);
 
-                DefaultTableModel tableModel = (DefaultTableModel) DbUtils.resultSetToTableModel(result);
-
-                for (Object[] rowData4 : bookDatepub) {
-                    tableModel.addRow(rowData4);
+                DefaultTableModel tableModel = new DefaultTableModel(
+                 new Object[]{"Book ID", "Title", "Author", "Genre", "Date Published", "Date Added"}, 0
+                );
+                // Add sorted rows to the table model
+                for (Object[] rowData2 : bookDatepub) {
+                    tableModel.addRow(rowData2);
                 }
+
                 eTab.setModel(tableModel);
 
             } catch (SQLException e) {
@@ -634,12 +653,13 @@ public class menu extends javax.swing.JFrame {
    
    
    private void sortDateAdded(){
+       //heapsort implementation
    try {
-                String sql = "SELECT * FROM Book ORDER BY date_added";
+                String sql = "SELECT * FROM Book";
 
                 pst = conn.prepareStatement(sql);
                 result = pst.executeQuery();
-                List<Object[]> bookDateAdd = new ArrayList<>();
+                ArrayList<Object[]> bookDateAdded = new ArrayList<>();
 
                 while (result.next()) {
                     Object[] rowData5 = {
@@ -649,18 +669,22 @@ public class menu extends javax.swing.JFrame {
                         result.getObject("genre"),
                         result.getObject("date_published"),
                         result.getObject("date_added"),};
-                    bookDateAdd.add(rowData5);
+                    bookDateAdded.add(rowData5);
                 }
 
-                Object[][] bookdateaddArray = bookDateAdd.toArray(new Object[0][]);
-                insertionsort sort = new insertionsort();
-                sort.insertionSort(bookdateaddArray);
+                 int low = 0;
+                 int high = bookDateAdded.size() - 1;
+                mergesort sort = new mergesort();
+                sort.mergeSort(bookDateAdded,low,high);
 
-                DefaultTableModel tableModel = (DefaultTableModel) DbUtils.resultSetToTableModel(result);
-
-                for (Object[] rowData5 : bookDateAdd) {
-                    tableModel.addRow(rowData5);
+                DefaultTableModel tableModel = new DefaultTableModel(
+                 new Object[]{"Book ID", "Title", "Author", "Genre", "Date Published", "Date Added"}, 0
+                );
+                // Add sorted rows to the table model
+                for (Object[] rowData2 : bookDateAdded) {
+                    tableModel.addRow(rowData2);
                 }
+
                 eTab.setModel(tableModel);
 
             } catch (SQLException e) {
